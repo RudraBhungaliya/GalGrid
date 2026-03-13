@@ -1,9 +1,12 @@
 import { useState, useMemo, useCallback } from "react";
 import useFetchPhotos from "../hooks/useFetchPhotos.jsx";
+import Spinner from "../components/Spinner.jsx";
+import { useUI } from "../context/UIContext.jsx";
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
   const { photos } = useFetchPhotos(); 
+  const { loading } = useUI();
 
   const handleSearch = useCallback((e) => {
     setSearch(e.target.value);
@@ -16,6 +19,10 @@ export default function HomePage() {
       return input.author.toLowerCase().includes(search.toLowerCase());
     });
   }, [photos, search]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <>
