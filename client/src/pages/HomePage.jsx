@@ -2,11 +2,17 @@ import { useState, useMemo, useCallback } from "react";
 import useFetchPhotos from "../hooks/useFetchPhotos.jsx";
 import Spinner from "../components/Spinner.jsx";
 import { useUI } from "../context/UIContext.jsx";
+import { useReducer } from "react";
+import {
+  favouritesReducer,
+  initialState,
+} from "../reducers/favouritesReducer.js";
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
-  const { photos } = useFetchPhotos(); 
+  const { photos } = useFetchPhotos();
   const { loading } = useUI();
+  const [favourites, dispatch] = useReducer(favouritesReducer, initialState);
 
   const handleSearch = useCallback((e) => {
     setSearch(e.target.value);
@@ -19,6 +25,13 @@ export default function HomePage() {
       return input.author.toLowerCase().includes(search.toLowerCase());
     });
   }, [photos, search]);
+
+  const toggleFav = (id) => {
+    dispatch({
+      type: "TOGGLE_FAV",
+      payload: id,
+    });
+  };
 
   if (loading) {
     return <Spinner />;
@@ -54,27 +67,33 @@ export default function HomePage() {
         >
           {filteredPhotos.length === 0 && <p>No photos found.</p>}
 
-          {filteredPhotos.map((photo) => (
-            <div
-              key={photo.id}
-              style={{
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                padding: "10px",
-              }}
-            >
-              <img
-                src={photo.download_url}
-                alt={photo.author}
+          {filteredPhotos.map((photo) => {
+            const isFav = favourites[photo.id];
+            return (
+              <div
+                key={photo.id}
                 style={{
-                  width: "100%",
-                  borderRadius: "6px",
+                  border: "1px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "10px",
                 }}
-              />
+              >
+                <img
+                  src={photo.download_url}
+                  alt={photo.author}
+                  style={{
+                    width: "100%",
+                    borderRadius: "6px",
+                  }}
+                />
 
-              <p style={{ marginTop: "8px" }}>{photo.author}</p>
-            </div>
-          ))}
+                <p style={{ marginTop: "8px" }}>{photo.author}</p>
+                <button onClick={() => toggleFav(photo.id)} className="text-xl">
+                  {isFav ? "❤️" : "🤍"}
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
