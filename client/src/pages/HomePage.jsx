@@ -13,10 +13,15 @@ export default function HomePage() {
   const { photos } = useFetchPhotos();
   const { loading } = useUI();
   const [favourites, dispatch] = useReducer(favouritesReducer, initialState);
+  const [showFavs, setShowFavs] = useState(false);
 
   const handleSearch = useCallback((e) => {
     setSearch(e.target.value);
   }, []);
+
+  const favrouitePhotos = useMemo(() => {
+    return photos.filter((photo) => favourites[photo.id]);
+  }, [photos, favourites]);
 
   const filteredPhotos = useMemo(() => {
     if (!search) return photos;
@@ -25,6 +30,8 @@ export default function HomePage() {
       return input.author.toLowerCase().includes(search.toLowerCase());
     });
   }, [photos, search]);
+
+  const displayedPhotos = showFavs ? favrouitePhotos : filteredPhotos;
 
   const toggleFav = (id) => {
     dispatch({
@@ -40,9 +47,19 @@ export default function HomePage() {
   return (
     <>
       <div style={{ padding: "40px", fontFamily: "Arial, sans-serif" }}>
-        <h1 style={{ fontSize: "30px", marginBottom: "20px" }}>
-          Photo Gallery
-        </h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "20px",
+          }}
+        >
+          <h1 style={{ fontSize: "30px" }}>Photo Gallery</h1>
+
+          <button onClick={() => setShowFavs(!showFavs)}>
+            {showFavs ? "Show All Photos" : "Show Favourites"}
+          </button>
+        </div>
 
         <input
           type="text"
@@ -65,9 +82,9 @@ export default function HomePage() {
             gap: "20px",
           }}
         >
-          {filteredPhotos.length === 0 && <p>No photos found.</p>}
+          {displayedPhotos.length === 0 && <p>No photos found.</p>}
 
-          {filteredPhotos.map((photo) => {
+          {displayedPhotos.map((photo) => {
             const isFav = favourites[photo.id];
             return (
               <div
