@@ -3,6 +3,7 @@ import useFetchPhotos from "../hooks/useFetchPhotos.jsx";
 import Spinner from "../components/Spinner.jsx";
 import { useUI } from "../context/UIContext.jsx";
 import { useReducer } from "react";
+import "../App.css";
 import {
   favouritesReducer,
   initialState,
@@ -45,74 +46,55 @@ export default function HomePage() {
   }
 
   return (
-    <>
-      <div style={{ padding: "40px", fontFamily: "Arial, sans-serif" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-          }}
+    <div className="gallery-page">
+      <div className="gallery-header">
+        <h1 className="gallery-title">Photo Gallery</h1>
+
+        <button
+          className="toggle-favs-btn"
+          onClick={() => setShowFavs(!showFavs)}
         >
-          <h1 style={{ fontSize: "30px" }}>Photo Gallery</h1>
+          {showFavs ? "Show All Photos" : "Show Favourites"}
+        </button>
+      </div>
 
-          <button onClick={() => setShowFavs(!showFavs)}>
-            {showFavs ? "Show All Photos" : "Show Favourites"}
-          </button>
-        </div>
+      <input
+        type="text"
+        placeholder="Search"
+        value={search}
+        onChange={handleSearch}
+        className="gallery-search"
+      />
 
-        <input
-          type="text"
-          placeholder="Search"
-          value={search}
-          onChange={handleSearch}
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "30px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-          }}
-        />
+      <div className="gallery-grid">
+        {displayedPhotos.length === 0 && <p>No photos found.</p>}
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-            gap: "20px",
-          }}
-        >
-          {displayedPhotos.length === 0 && <p>No photos found.</p>}
+        {displayedPhotos.map((photo) => {
+          const isFav = favourites[photo.id];
+          return (
+            <article key={photo.id} className="photo-card">
+              <img
+                src={photo.download_url}
+                alt={photo.author}
+                className="photo-card-image"
+              />
 
-          {displayedPhotos.map((photo) => {
-            const isFav = favourites[photo.id];
-            return (
-              <div
-                key={photo.id}
-                style={{
-                  border: "1px solid #ddd",
-                  borderRadius: "8px",
-                  padding: "10px",
-                }}
-              >
-                <img
-                  src={photo.download_url}
-                  alt={photo.author}
-                  style={{
-                    width: "100%",
-                    borderRadius: "6px",
-                  }}
-                />
-
-                <p style={{ marginTop: "8px" }}>{photo.author}</p>
-                <button onClick={() => toggleFav(photo.id)} className="text-xl">
+              <div className="photo-card-footer">
+                <p className="photo-author">{photo.author}</p>
+                <button
+                  onClick={() => toggleFav(photo.id)}
+                  className="fav-btn"
+                  aria-label={
+                    isFav ? "Remove from favourites" : "Add to favourites"
+                  }
+                >
                   {isFav ? "❤️" : "🤍"}
                 </button>
               </div>
-            );
-          })}
-        </div>
+            </article>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 }

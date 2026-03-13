@@ -1,1 +1,104 @@
 @import "tailwindcss";
+
+.gallery-page {
+	padding: 24px;
+}
+
+.gallery-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.gallery-title {
+	font-size: 30px;
+	font-weight: 700;
+}
+
+.toggle-favs-btn {
+	border: 1px solid #d4d4d8;
+	border-radius: 8px;
+	padding: 10px 14px;
+	background: #ffffff;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.gallery-search {
+	width: 100%;
+	padding: 10px 12px;
+	margin-bottom: 22px;
+	border-radius: 8px;
+	border: 1px solid #d4d4d8;
+}
+
+.gallery-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.photo-card {
+	border: 1px solid #e4e4e7;
+	border-radius: 10px;
+	padding: 10px;
+	background: #fff;
+}
+
+.photo-card-image {
+	width: 100%;
+	height: 220px;
+	object-fit: cover;
+	display: block;
+	border-radius: 8px;
+}
+
+.photo-card-footer {
+	margin-top: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.photo-author {
+	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.fav-btn {
+	border: 0;
+	background: transparent;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+	.gallery-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 640px) {
+	.gallery-page {
+		padding: 16px;
+	}
+
+	.gallery-header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.gallery-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.photo-card-image {
+		height: 200px;
+	}
+}
