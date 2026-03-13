@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 
-export default function Home() {
+export default function HomePage() {
   const [search, setSearch] = useState("");
   const photos = []; // useFetchPhotos()
 
