@@ -1,20 +1,21 @@
 import { useState, useMemo, useCallback } from "react";
+import useFetchPhotos from "../hooks/useFetchPhotos.jsx";
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
-  const photos = []; // useFetchPhotos()
+  const { photos } = useFetchPhotos(); 
 
   const handleSearch = useCallback((e) => {
     setSearch(e.target.value);
   }, []);
 
-//   const filteredPhotos = useMemo(() => {
-//     if (!search) return photos;
+  const filteredPhotos = useMemo(() => {
+    if (!search) return photos;
 
-//     return photos.filter((input) => {
-//       input.author.toLowerCase().includes(search.toLowerCase());
-//     });
-//   }, [photos, search]);
+    return photos.filter((input) => {
+      return input.author.toLowerCase().includes(search.toLowerCase());
+    });
+  }, [photos, search]);
 
   return (
     <>
@@ -55,16 +56,16 @@ export default function HomePage() {
                 padding: "10px",
               }}
             >
-              {/* <img
-                src={}
-                alt={}
+              <img
+                src={photo.download_url}
+                alt={photo.author}
                 style={{
                   width: "100%",
                   borderRadius: "6px",
                 }}
-              /> */}
+              />
 
-              {/* <p style={{ marginTop: "8px" }}>{}</p> */}
+              <p style={{ marginTop: "8px" }}>{photo.author}</p>
             </div>
           ))}
         </div>

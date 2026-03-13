@@ -3,7 +3,7 @@ import { useUI } from "../context/UIContext.jsx";
 
 export default function useFetchPhotos(){
     const [photos, setPhotos] = useState([]);
-    const [setLoading, setError] = useUI();
+    const { setLoading, setError } = useUI();
 
     useEffect(() => {
         async function fetchPhotos(){
