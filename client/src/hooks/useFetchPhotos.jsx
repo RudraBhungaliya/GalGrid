@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUI } from "../context/UIContext.jsx";
+import { useUI } from "./context/UIContext.jsx";
 
 export default function useFetchPhotos(){
     const [photos, setPhotos] = useState([]);

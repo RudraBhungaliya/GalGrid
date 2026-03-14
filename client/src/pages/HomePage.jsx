@@ -1,13 +1,13 @@
 import { useState, useMemo, useCallback } from "react";
 import useFetchPhotos from "../hooks/useFetchPhotos.jsx";
 import Spinner from "../components/Spinner.jsx";
-import { useUI } from "../context/UIContext.jsx";
+import { useUI } from "../hooks/context/UIContext.jsx";
 import { useReducer } from "react";
 import "../App.css";
 import {
   favouritesReducer,
   initialState,
-} from "../reducers/favouritesReducer.js";
+} from "../hooks/reducers/favouritesReducer.js";
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
