@@ -1,4 +1,6 @@
-export function favouritesReducer(state, action) {
+//const [state, dispatch] = useReducer(reducer, initialState)
+
+export function favouritesReducer(state, action) {// reducer fn
   switch (action.type) {
     case "TOGGLE_FAV": {
       const id = action.payload;
