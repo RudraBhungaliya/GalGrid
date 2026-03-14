@@ -1,7 +1,8 @@
 export default function Spinner() {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-12 h-12 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+    <div className="spinner-screen" role="status" aria-live="polite">
+      <div className="spinner-ring" aria-hidden="true"></div>
+      <p className="spinner-label">Loading photos...</p>
     </div>
   );
 }

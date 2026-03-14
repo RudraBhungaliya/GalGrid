@@ -9,8 +9,9 @@ export default function useFetchPhotos(){
         async function fetchPhotos(){
             try{
                 setLoading(true);
+                setError(null);
 
-                const res = await fetch("https://picsum.photos/v2/list?limit=30");
+                const res = await fetch("https://picsum.photos/v2/list?limit=20");
 
                 if(!res.ok){
                     throw new Error("Failed to fetch photos");
